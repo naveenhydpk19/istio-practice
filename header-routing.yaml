@@ -1,0 +1,35 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: http-vs
+  namespace: dev
+spec:
+  hosts:
+  - deopsschool.istio.demo
+  gateways:
+  - http-gateway
+  http:
+    - name: istio-demo-v1-0
+      match:
+      - uri: 
+          prefix: /v1/istiodemo
+        headers:
+          version:
+             exact: v1.0
+      route:
+      - destination:
+          host: istio-demo-v1-0
+          port:
+           number: 8080
+    - name: istio-demo-v1-1
+      match:
+      - uri:
+          prefix: /v1/istiodemo
+        headers:
+          version:
+             exact: v1.1
+      route:
+      - destination:
+          host: istio-demo-v1-1
+          port:
+           number: 8080           
